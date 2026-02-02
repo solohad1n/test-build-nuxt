@@ -15,5 +15,13 @@ export default defineNuxtConfig({
   build: {
     transpile: ['@vuepic/vue-datepicker']
   },
-  modules: []
+  modules: [],
+   vite: {
+    server: {
+      allowedHosts: [
+        'lalalatututu.store',
+        'www.lalalatututu.store'
+      ]
+    }
+  }
 })
