@@ -1,0 +1,17 @@
+.dp__theme_light:root {
+  --dp-primary-color: red !important; /* красно-серый */
+  --dp-primary-text-color: #fff;
+  --dp-background-color: #2b2b2b;
+}
+
+.dp__theme_light {
+  --dp-primary-color: red !important; /* красно-серый */
+  --dp-primary-text-color: #fff;
+  --dp-background-color: #2b2b2b;
+}
+
+:root {
+  --dp-primary-color: red !important; /* красно-серый */
+  --dp-primary-text-color: #fff;
+  --dp-background-color: #2b2b2b;
+}
