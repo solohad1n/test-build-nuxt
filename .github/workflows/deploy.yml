@@ -23,10 +23,8 @@ jobs:
             - name: Deploy
               run: |
                 ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "
-                cd python-crud &&
+                cd test-build-nuxt &&
                 git pull &&
-                source venv/bin/activate &&
-                python3 manage.py makemigrations &&
-                python3 manage.py migrate &&
-                systemctl restart gunicorn
+                npm run build &&
+                systemctl restart nuxt-app.service
                 "
