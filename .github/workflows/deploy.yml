@@ -25,6 +25,6 @@ jobs:
                 ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "
                 cd test-build-nuxt &&
                 git pull &&
-                npm run build &&
+                /root/.nvm/versions/node/v22.21.0/bin/npm run build &&
                 systemctl restart nuxt-app.service
                 "
