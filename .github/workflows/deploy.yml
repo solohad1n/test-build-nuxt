@@ -23,7 +23,8 @@ jobs:
             - name: Deploy
               run: |
                 ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "
-                export PATH=/usr/local/bin:/usr/bin:/bin:$PATH
+                export PATH ="/root/.nvm/versions/node/v22.21.0/bin/node:$PATH"
+                export PATH ="/root/.nvm/versions/node/v22.21.0/bin/npm:$PATH"
                 cd test-build-nuxt &&
                 git pull &&
                 npm run build &&
