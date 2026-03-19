@@ -1,6 +1,6 @@
 <template>
   <div class="payroll-page">
-    <div>Тестовые данные333</div>
+    <div>Тестовые данные - EУРА УРА УРА!</div>
     <div>{{ testItems }}</div>
     <div class="payroll-card">
       <!-- Шапка карточки -->
