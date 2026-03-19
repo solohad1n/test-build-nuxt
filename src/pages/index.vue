@@ -1,5 +1,7 @@
 <template>
   <div class="payroll-page">
+    <div>Тестовые данные</div>
+    <div>{{ testItems }}</div>
     <div class="payroll-card">
       <!-- Шапка карточки -->
       <header class="payroll-card__header">
@@ -433,6 +435,71 @@ const error = ref(null);
 const pageSize = ref(20);
 const page = ref(1);
 const showAll = ref(false);
+
+const testItems = ref([])
+
+/**
+ * Универсальный GET (fetch) с таймаутом и нормальной ошибкой
+ */
+const getJson = async (url, { timeout = 10000, headers = {} } = {}) => {
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), timeout)
+
+  try {
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcwMTgzNTE4LCJpYXQiOjE3NzAxODAyMTgsImp0aSI6ImI1MzNmYTg4MWE0YTQxZDlhYzg1NjdlZDYyOWY5ODI4IiwidXNlcl9pZCI6IjEifQ.azpyLjVXFFIXSfwMUeRRruLD7w4_ezSZtz__lK3Kfwo',
+        ...headers,
+      },
+      signal: controller.signal,
+    })
+
+    if (!res.ok) {
+      // пробуем достать текст ошибки с бэка (часто там json/текст)
+      let details = ''
+      try {
+        details = await res.text()
+      } catch (_) {}
+
+      throw new Error(`GET ${url} → ${res.status} ${res.statusText}${details ? `: ${details}` : ''}`)
+    }
+
+    return await res.json()
+  } catch (e) {
+    if (e?.name === 'AbortError') {
+      throw new Error(`GET ${url} → timeout ${timeout}ms`)
+    }
+    throw e
+  } finally {
+    clearTimeout(timer)
+  }
+}
+
+/**
+ * Загружаем тестовые items с API и кладём в testItems
+ * Пример: API Root отдаёт { notes: "http://.../api/notes/" }
+ */
+const loadTestItems = async () => {
+  try {
+    const root = await getJson('https://lalalatututu.store/api/')
+    const notesUrl = root.notes.replace('http://', 'https://')
+    const notes = await getJson(notesUrl)
+
+    testItems.value = notes
+  } catch (e) {
+    console.error(e)
+    testItems.value = []
+  }
+}
+
+
+
+onMounted(() => {
+  loadPayroll()
+  loadTestItems()
+})
 
 const hasRows = computed(() => (payroll.value?.rows?.length ?? 0) > 0);
 
