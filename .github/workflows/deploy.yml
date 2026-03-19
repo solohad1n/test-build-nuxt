@@ -23,8 +23,9 @@ jobs:
             - name: Deploy
               run: |
                 ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "
+                export PATH=/usr/local/bin:/usr/bin:/bin:$PATH
                 cd test-build-nuxt &&
                 git pull &&
-                /root/.nvm/versions/node/v22.21.0/bin/npm run build &&
+                npm run build &&
                 systemctl restart nuxt-app.service
                 "
